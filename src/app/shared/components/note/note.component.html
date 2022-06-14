@@ -1,0 +1,63 @@
+<header>
+  <h2 mat-dialog-title>Note</h2>
+  <button mat-icon-button (click)="goToNote(data)" matTooltip="Open details">
+    <mat-icon>open_in_full</mat-icon>
+  </button>
+</header>
+<mat-dialog-content>
+  <form [formGroup]="noteForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput type="text" />
+      <mat-error *ngIf="noteForm.get('title')?.hasError('required')"
+        >Title is required!</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="group">
+        <mat-option [value]="groups.IMPORTANT">
+          {{ groups.IMPORTANT }}
+        </mat-option>
+        <mat-option [value]="groups.NOT_IMPORTANT">
+          {{ groups.NOT_IMPORTANT }}
+        </mat-option>
+        <mat-option [value]="groups.CONFIDENCIAL">
+          {{ groups.CONFIDENCIAL }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="group">
+      <mat-label>Share with</mat-label>
+      <mat-select formControlName="resources" multiple>
+        <mat-option
+          *ngFor="let resource of allResources"
+          [value]="resource.name"
+          >{{ resource.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea
+        formControlName="content"
+        matInput
+        placeholder="This is my note"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="!data?.readOnly">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="changedNote"
+    [disabled]="noteForm.invalid || !noteForm.dirty"
+    cdkFocusInitial
+  >
+    {{ data?.id ? "Update" : "Create" }}
+  </button>
+</mat-dialog-actions>

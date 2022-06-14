@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title,
+.group {
+  max-width: 15rem;
+}
+
+mat-list-item:hover {
+  cursor: pointer;
+}

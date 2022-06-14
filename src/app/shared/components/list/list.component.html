@@ -1,0 +1,154 @@
+<div class="filter">
+  <form [formGroup]="formFilter">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input
+        autocomplete="off"
+        matInput
+        formControlName="name"
+        placeholder="Pesquisar notas"
+        #search
+      />
+      <button
+        *ngIf="formFilter.get('name')?.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="resetFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</div>
+
+<div class="table-container mat-elevation-z8">
+  <table
+    mat-table
+    [dataSource]="newList"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+    </ng-container>
+
+    <!-- Updated At Column -->
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.updatedAt | date: "dd/MM/yyyy hh:mm" }}
+      </td>
+    </ng-container>
+
+    <!-- Group Column -->
+    <ng-container matColumnDef="group">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.group }}
+      </td>
+    </ng-container>
+
+    <!-- Creator Column -->
+    <ng-container matColumnDef="creator">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Created by</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.creator }}
+      </td>
+    </ng-container>
+
+    <!-- Version Column -->
+    <ng-container matColumnDef="version">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Version</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.version }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          [cdkCopyToClipboard]="getNoteUrl(element.id)"
+          (click)="$event.stopPropagation()"
+          matTooltip="Copy note link"
+        >
+          <mat-icon>link</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="goToNote($event, element)"
+          matTooltip="Edit Note"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="deleteNote(element)"
+          matTooltip="Delete Note"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="editNote(row)"
+    ></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="5" *ngIf="search.value">
+        No data matching the filter "{{ search.value }}"
+      </td>
+      <td class="mat-cell" colspan="5" *ngIf="!search.value">
+        No documents found
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<mat-menu #menu="matMenu">
+  <form [formGroup]="formFilter">
+    <mat-form-field appearance="outline" (click)="$event.stopPropagation()">
+      <mat-label>Group</mat-label>
+      <mat-select formControlName="groupBy">
+        <mat-option [value]="groups.IMPORTANT">
+          {{ groups.IMPORTANT }}
+        </mat-option>
+        <mat-option [value]="groups.NOT_IMPORTANT">
+          {{ groups.NOT_IMPORTANT }}
+        </mat-option>
+        <mat-option [value]="groups.CONFIDENCIAL">
+          {{ groups.CONFIDENCIAL }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" (click)="$event.stopPropagation()">
+      <mat-label>Created by</mat-label>
+      <mat-select formControlName="resource">
+        <mat-option
+          *ngFor="let resource of allResources"
+          [value]="resource.name"
+          >{{ resource.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <button mat-raised-button *ngIf="formFilter.dirty" (click)="resetFilter()">
+    ClearFilter
+  </button>
+</mat-menu>

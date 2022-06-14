@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 97.5vh;
+  background-color: lightgray;
+  overflow: hidden;
+
+  mat-card {
+    max-width: 30rem;
+  }
+}
+
+mat-selection-list {
+  max-height: 10rem;
+  overflow: auto;
+
+  mat-list-option {
+    cursor: pointer;
+  }
+}
+
+.login {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

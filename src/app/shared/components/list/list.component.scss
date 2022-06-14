@@ -1,0 +1,31 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.table-container {
+  table {
+    width: 100%;
+  }
+}
+
+mat-form-field {
+  width: 20rem;
+}
+
+form > mat-form-field {
+  width: 16rem;
+  height: 4rem;
+  padding-left: 0.5rem;
+}
+
+.filter {
+  display: flex;
+  align-items: end;
+}
+
+::ng-deep .mat-menu-panel {
+  overflow: hidden !important;
+}

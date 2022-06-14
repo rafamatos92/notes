@@ -1,0 +1,29 @@
+<mat-card class="mat-elevation-z8">
+  <mat-card-title>Notes App</mat-card-title>
+  <mat-card-subtitle>Cocus</mat-card-subtitle>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div *ngIf="users.length">
+      <div mat-subheader>Last Logins</div>
+      <mat-selection-list [multiple]="false">
+        <mat-list-option *ngFor="let user of users" (click)="login(user)">
+          <mat-icon mat-list-icon>account_circle</mat-icon>
+          <div mat-line>{{ user?.name }}</div>
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-divider></mat-divider>
+    </div>
+
+    <div class="login">
+      <h3>New over here? Enter with your name!</h3>
+      <form [formGroup]="loginForm">
+        <mat-form-field appearance="outline">
+          <mat-label>User Name</mat-label>
+          <input formControlName="name" matInput type="text" />
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="primary" (click)="login()">Login</button>
+    </div>
+  </mat-card-content>
+</mat-card>
