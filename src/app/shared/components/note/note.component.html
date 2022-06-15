@@ -29,7 +29,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="group">
+    <mat-form-field appearance="outline" class="group" *ngIf="allResources?.length">
       <mat-label>Share with</mat-label>
       <mat-select formControlName="resources" multiple>
         <mat-option

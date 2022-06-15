@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NoteComponent } from 'src/app/shared/components/note/note.component';
-import { Note, User } from 'src/app/shared/models';
+import { Note } from 'src/app/shared/models';
 import { NotesService } from 'src/app/shared/services';
 
 @Component({
@@ -14,12 +14,13 @@ import { NotesService } from 'src/app/shared/services';
 })
 export class GeneralComponent implements OnInit {
   list: Note[] = [];
-  
+
   constructor(
     public dialog: MatDialog,
     private service: NotesService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.list = this.service.notes;
@@ -45,7 +46,7 @@ export class GeneralComponent implements OnInit {
       .subscribe((note: Note) => {
         this.service.newNote = note;
         this.list = this.service.notes;
-        this.router.navigate(['notes']);
+        window.location.reload();
       });
   }
 
@@ -61,7 +62,7 @@ export class GeneralComponent implements OnInit {
       .subscribe((note: Note) => {
         this.service.edit = note;
         this.list = this.service.notes;
-        this.router.navigate(['notes']);
+        window.location.reload();
       });
   }
 

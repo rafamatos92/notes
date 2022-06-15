@@ -3,7 +3,7 @@
   <mat-card-subtitle>Cocus</mat-card-subtitle>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <div *ngIf="users.length">
+    <div *ngIf="users?.length">
       <div mat-subheader>Last Logins</div>
       <mat-selection-list [multiple]="false">
         <mat-list-option *ngFor="let user of users" (click)="login(user)">

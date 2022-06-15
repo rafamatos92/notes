@@ -11,16 +11,5 @@
 </mat-toolbar>
 
 <body>
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="List">
-      <app-list
-        [list]="list"
-        (delete)="deleteNote($event)"
-        (edit)="updateNote($event)"
-      ></app-list>
-    </mat-tab>
-    <mat-tab label="Cards">
-      <app-card></app-card>
-    </mat-tab>
-  </mat-tab-group>
+  <app-list [list]="list" (delete)="deleteNote($event)" (edit)="updateNote($event)"></app-list>
 </body>

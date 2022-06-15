@@ -8,7 +8,7 @@ const key = 'cocus';
   providedIn: 'root',
 })
 export class NotesService {
-  constructor() {}
+  constructor() { }
 
   private get storage() {
     if (localStorage.getItem('storage')) {
@@ -43,7 +43,6 @@ export class NotesService {
   }
 
   set newNote(note: Note) {
-    debugger;
     localStorage.setItem(
       'storage',
       this.encrypt({
@@ -71,15 +70,15 @@ export class NotesService {
     const notes = this.notes.map((note: Note) =>
       editedNote.id === note.id
         ? {
-            ...editedNote,
-            updatedAt: new Date(),
-            version: (note?.version || 0) + 1,
-            resources: editedNote?.resources || note?.resources,
-            oldVersions: [
-              ...(note?.oldVersions || []),
-              { ...note, readOnly: true },
-            ],
-          }
+          ...editedNote,
+          updatedAt: new Date(),
+          version: (note?.version || 0) + 1,
+          resources: editedNote?.resources || note?.resources,
+          oldVersions: [
+            ...(note?.oldVersions || []),
+            { ...note, readOnly: true },
+          ],
+        }
         : note
     );
     localStorage.setItem('storage', this.encrypt({ ...this.storage, notes }));
